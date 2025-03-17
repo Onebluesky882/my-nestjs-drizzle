@@ -21,10 +21,32 @@ model Product{
   price Float
   sale Boolean @default(false)
   availability Availability
-
-
+  reviews Review[]
+  tags Tag[]
+  description Description?
 }
 
+model Description {
+  id        Int     @id @default(autoincrement())
+  content String
+  product Product @relation(fields: [productId] , references: [id])
+  productId Int @unique
+  }
+
+model Review {
+id Int @default(autoincrement()) @id
+title String
+content String
+rating Int
+product Product @relation(fields: [productId] , references: [id])
+productId Int  
+}
+
+model Tag{
+  id Int @default(autoincrement()) @id
+  content String
+  products Product[]
+}
 enum Availability {
   IN_STORE
   ONLINE
