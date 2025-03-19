@@ -1,45 +1,39 @@
-import { Injectable, InternalServerErrorException } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
+import { DatabaseService } from 'src/database/database.service';
 import { Prisma } from '@prisma/client';
-import { DatabaseService } from '../database/database.service';
 
 @Injectable()
 export class ProductsService {
   constructor(private readonly databaseService: DatabaseService) {}
 
-  async create(createProductDto: Prisma.ProductsCreateInput) {
+  async create(createProductDto: Prisma.ProductCreateInput) {
+    const randomNumber = Math.floor(10000 + Math.random() * 90000);
     try {
-      console.log('🚀 Data before insert:', createProductDto); // Debug request data
-
-      return await this.databaseService.products.create({
-        data: createProductDto,
+      return await this.databaseService.product.create({
+        data: { ...createProductDto, itemCode: randomNumber },
       });
-      console.log('✅ Created product:'); // Debug successful insert
     } catch (error) {
-      console.error('🔥 Prisma Error:', error); // Debug Prisma errors
-      throw new InternalServerErrorException(
-        error.message || 'Failed to create product',
-      );
+      console.error('🔥 Error creating product:', error); // ✅ Log full Prisma error
+      throw new Error(`Failed to create product: ${error.message}`); // ✅ Return readable error
     }
   }
 
   async findAll() {
-    return await this.databaseService.products.findMany();
+    return await this.databaseService.product.findMany();
   }
 
-  async findOne(id: number) {
-    return await this.databaseService.products.findUnique({ where: { id } });
+  async findOne(id: string) {
+    return await this.databaseService.product.findUnique({ where: { id } });
   }
 
-  async update(id: number, updateProductDto: Prisma.ProductsUpdateInput) {
-    return await this.databaseService.products.update({
+  async update(id: string, updateProductDto: Prisma.ProductUpdateInput) {
+    return await this.databaseService.product.update({
       where: { id },
       data: updateProductDto,
     });
   }
 
-  async remove(id: number) {
-    return await this.databaseService.products.delete({
-      where: { id },
-    });
+  async remove(id: string) {
+    return await this.databaseService.product.delete({ where: { id } });
   }
 }
