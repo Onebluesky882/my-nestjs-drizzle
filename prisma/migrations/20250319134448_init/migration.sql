@@ -2,14 +2,13 @@
 CREATE TYPE "Availability" AS ENUM ('IN_STORE', 'ONLINE');
 
 -- CreateTable
-CREATE TABLE "Product" (
+CREATE TABLE "Products" (
     "id" SERIAL NOT NULL,
     "name" TEXT NOT NULL,
-    "createAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    "updateAt" TIMESTAMP(3) NOT NULL,
     "price" DOUBLE PRECISION NOT NULL,
-    "sale" BOOLEAN NOT NULL,
+    "create_at" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "update_at" TIMESTAMP(3) NOT NULL,
     "availability" "Availability" NOT NULL,
 
-    CONSTRAINT "Product_pkey" PRIMARY KEY ("id")
+    CONSTRAINT "Products_pkey" PRIMARY KEY ("id")
 );
