@@ -7,7 +7,7 @@ import {
   Param,
   Delete,
 } from '@nestjs/common';
-import { ProductsService } from './products.service';
+import { type ProductsService } from './products.service';
 import { Prisma } from '@prisma/client';
 
 @Controller('products')

@@ -25,6 +25,17 @@ model Product {
   updatedAt   DateTime @updatedAt
 }
 
+model User {
+  id       String @id @default(uuid())
+  name     String
+  email    String @unique
+  avatar   String
+  age      Int
+  country  String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
 enum Availability {
   IN_STORE
   ONLINE
