@@ -36,6 +36,15 @@ model User {
   updatedAt DateTime @updatedAt
 }
 
+model Order {
+  id          String   @id @default(uuid())
+  customerId  String
+  totalAmount Float
+  status      String   @default("PENDING")
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
 enum Availability {
   IN_STORE
   ONLINE

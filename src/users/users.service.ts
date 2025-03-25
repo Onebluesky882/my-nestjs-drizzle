@@ -9,7 +9,7 @@ export class UsersService {
     return this.databaseService.user.create({ data: { ...createUserDto } });
   }
 
-  findAll() {
+  async findAll() {
     return this.databaseService.user.findMany();
   }
 
@@ -17,14 +17,14 @@ export class UsersService {
     return this.databaseService.user.findUnique({ where: { id } });
   }
 
-  update(id: string, updateUserDto: Prisma.UserUpdateInput) {
+  async update(id: string, updateUserDto: Prisma.UserUpdateInput) {
     return this.databaseService.user.update({
       where: { id },
       data: { ...updateUserDto },
     });
   }
 
-  remove(id: string) {
+  async remove(id: string) {
     return this.databaseService.user.delete({ where: { id } });
   }
 }
