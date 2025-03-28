@@ -1,0 +1,46 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+model Users {
+  id      String     @id @default(uuid())
+  name    String
+  email   String  @unique
+  avatar  String?
+  age     Int     @default(18)
+  country String
+
+}
+
+
+model Products {
+  id          BigInt  @id @default(0) // Unique identifier for the product (UUID)
+  name        String   // Name of the product
+  description String   // A description of the product
+  price       Float    // Price of the product
+  category    String   // Category to which the product belongs
+  stock       Int      // The quantity of the product in stock
+  createdAt   DateTime @default(now()) // The time when the product was created
+  updatedAt   DateTime @updatedAt // The time when the product was last updated
+}
+
+model Orders {
+  id            BigInt       @id @default(0) // Primary key with auto-increment
+  customerName  String
+  productName   String
+  quantity      Int
+  price         Float
+  createdAt     DateTime  @default(now()) // Date when the order is created
+  updatedAt     DateTime  @updatedAt // Automatically updated when the record is modified
+  status        String    // Order status (e.g., "pending", "shipped", "delivered")
+}
