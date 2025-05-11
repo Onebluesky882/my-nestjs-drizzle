@@ -1,30 +1,24 @@
-import { Injectable } from '@nestjs/common';
-import { Prisma } from '@prisma/client';
-import { DatabaseService } from 'src/database/database.service';
-
+import { Inject, Injectable } from '@nestjs/common';
+import { DATABASE_CONNECTION } from '../database/database-connection';
+import { NodePgDatabase } from 'drizzle-orm/node-postgres';
+import { schema } from 'src/database/schema';
 @Injectable()
 export class UsersService {
-  constructor(private readonly databaseService: DatabaseService) {}
-  async create(createUserDto: Prisma.UsersCreateInput) {
-    return await this.databaseService.users.create({ data: createUserDto });
+  constructor(
+    @Inject(DATABASE_CONNECTION)
+    private readonly database: NodePgDatabase<typeof schema>,
+  ) {}
+
+  async createUser(name: string) {
+    return this.database
+      .insert(schema.users)
+      .values({
+        name: name,
+      })
+      .returning();
   }
 
-  async findAll() {
-    return await this.databaseService.users.findMany();
-  }
-
-  async findOne(id: string) {
-    return await this.databaseService.users.findUnique({ where: { id } });
-  }
-
-  async update(id: string, updateUserDto: Prisma.UsersUpdateInput) {
-    return await this.databaseService.users.update({
-      where: { id },
-      data: updateUserDto,
-    });
-  }
-
-  async remove(id: string) {
-    return await this.databaseService.users.delete({ where: { id } });
+  async getAllUsers() {
+    return this.database.query.users.findMany();
   }
 }
