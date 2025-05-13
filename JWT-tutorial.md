@@ -101,3 +101,21 @@ getAdminData() {
   return 'Admin Data';
 }
 ```
+
+result check list
+
+### 1 Update AuthService to Return a Token
+
+Update the validateUser() function and add a login() function that returns the token:
+
+### 2. Create the AuthController Login Route
+
+Set up a POST route to log in with @UseGuards(AuthGuard('local')).
+
+### 3. Test with Postman
+
+Method: POST
+
+URL: http://localhost:3000/auth/login
+
+Body (raw JSON):

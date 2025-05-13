@@ -1,8 +1,6 @@
-import { Injectable, UnauthorizedException } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { AuthPayloadDto } from './dto/auth.dto';
-import { UsersService } from 'src/users/users.service';
 import { JwtService } from '@nestjs/jwt';
-import { users } from '../users/schema';
 const fakerUsers = [
   {
     id: 1,
@@ -31,16 +29,14 @@ export class AuthService {
     }
 
     const { password: _, ...user } = findUser;
-    const token = this.jwtService.sign({
-      sub: user.id,
-      username: user.username,
-    });
-    return { user, token };
+    return { user };
   }
 
-  // async signIn(name: string) {
-  //   const user = await this.userService.findOne(name);
-  //   if (user.) return new UnauthorizedException();
-
-  // }
+  login(user: any) {
+    const payload = { sub: user.id, username: user.username };
+    const token = this.jwtService.sign(payload);
+    return {
+      access_token: token,
+    };
+  }
 }
