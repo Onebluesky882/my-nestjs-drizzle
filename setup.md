@@ -7,7 +7,7 @@ This guide walks you through setting up Drizzle ORM with NestJS and PostgreSQL, 
 Install the required packages:
 
 ```bash
-npm install drizzle-orm pg @nestjs/config pg-connection-string dotenv
+npm install drizzle-orm pg  @nestjs/jwt @nestjs/config pg-connection-string dotenv
 npm install -D drizzle-kit @types/pg
 
 
@@ -19,7 +19,7 @@ import { defineConfig } from 'drizzle-kit';
 import * as dotenv from 'dotenv';
 import { parse } from 'pg-connection-string';
 
-dotenv.config({ path: '.env.local' });
+dotenv.config({ path: '.env' });
 
 const config = parse(process.env.DATABASE_URL!);
 
